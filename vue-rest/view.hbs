@@ -136,6 +136,7 @@
 
       <el-table-column
         label="Actions"
+        fixed="right"
         align="center"
         width="180"
         class-name="small-padding fixed-width"
@@ -219,7 +220,7 @@
           <el-input v-model="temp.access" />
         </el-form-item>
 
-        <el-form-item label="时间" v-if="temp.createdAt">
+        <el-form-item v-if="temp.createdAt" label="时间">
           \{{ new Date(temp.createdAt) | parseTime }}
         </el-form-item>
 
@@ -244,7 +245,7 @@
 </template>
 
 <script>
-import { fetch, addModel, updateModel, deleteModel } from "@/api/{{ name }}";
+import { list, create, update, delete } from "@/api/{{ name }}";
 import waves from "@/directive/waves"; // waves directive
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 {{#if advanced}}

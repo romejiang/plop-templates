@@ -7,7 +7,7 @@ import request from '@/utils/request'
 /**
  * 获取对象列表
  */
-export function fetch(query) {
+export function list(query) {
   return request({
     url: '/{{ name }}',
     method: 'get',
@@ -27,7 +27,7 @@ export function mine(query) {
 /**
  * 通过ID获取对象
  */
-export function fetchId(id) {
+export function get(id) {
   return request({
     url: '/{{ name }}/' + id,
     method: 'get'
@@ -36,7 +36,7 @@ export function fetchId(id) {
 /**
  * 添加对象
  */
-export function addModel(data) {
+export function create(data) {
   return request({
     url: '/{{ name }}',
     method: 'post',
@@ -46,7 +46,7 @@ export function addModel(data) {
 /**
  * 更新对象
  */
-export function updateModel(id, data) {
+export function update(id, data) {
   return request({
     url: `/{{ name }}/${id}`,
     method: 'put',
@@ -56,7 +56,7 @@ export function updateModel(id, data) {
 /**
  * 删除对象
  */
-export function deleteModel(id) {
+export function delete(id) {
   return request({
     url: `/{{ name }}/${id}`,
     method: 'delete'
