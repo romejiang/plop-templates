@@ -326,7 +326,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      fetch(this.listQuery).then(response => {
+      list(this.listQuery).then(response => {
         this.list = response.data.data && response.data.data.list;
         this.total = response.data.data ? response.data.data.count : 0;
 
@@ -358,7 +358,7 @@ export default {
     createData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          addModel(this.temp).then(res => {
+          create(this.temp).then(res => {
             if (this.errorInfo(res)) return;
             this.list.unshift(res.data.data);
             this.dialogFormVisible = false;
@@ -381,7 +381,7 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp);
 
-          updateModel(tempData._id, tempData).then(res => {
+          update(tempData._id, tempData).then(res => {
             if (this.errorInfo(res)) return;
             for (const v of this.list) {
               if (v._id === tempData._id) {
@@ -402,7 +402,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          deleteModel(id).then(res => {
+          delete(id).then(res => {
             if (this.errorInfo(res)) return;
             for (const v of this.list) {
               if (v._id === id) {
