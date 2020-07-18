@@ -245,7 +245,7 @@
 </template>
 
 <script>
-import { list, create, update, delete } from "@/api/{{ name }}";
+import {{ name }} from "@/api/{{ name }}";
 import waves from "@/directive/waves"; // waves directive
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 {{#if advanced}}
@@ -326,7 +326,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      list(this.listQuery).then(response => {
+      {{ name }}.list(this.listQuery).then(response => {
         this.list = response.data.data && response.data.data.list;
         this.total = response.data.data ? response.data.data.count : 0;
 
@@ -358,7 +358,7 @@ export default {
     createData() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
-          create(this.temp).then(res => {
+          {{ name }}.create(this.temp).then(res => {
             if (this.errorInfo(res)) return;
             this.list.unshift(res.data.data);
             this.dialogFormVisible = false;
@@ -381,7 +381,7 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp);
 
-          update(tempData._id, tempData).then(res => {
+          {{ name }}.update(tempData._id, tempData).then(res => {
             if (this.errorInfo(res)) return;
             for (const v of this.list) {
               if (v._id === tempData._id) {
@@ -402,7 +402,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          delete(id).then(res => {
+          {{ name }}.delete(id).then(res => {
             if (this.errorInfo(res)) return;
             for (const v of this.list) {
               if (v._id === id) {
