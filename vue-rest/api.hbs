@@ -56,7 +56,7 @@ export function update(id, data) {
 /**
  * 删除对象
  */
-export function delete(id) {
+export function remove(id) {
   return request({
     url: `/{{ name }}/${id}`,
     method: 'delete'
@@ -70,5 +70,5 @@ export default {
   get,
   create,
   update,
-  delete
+  remove
 }

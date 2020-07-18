@@ -402,7 +402,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          {{ name }}.delete(id).then(res => {
+          {{ name }}.remove(id).then(res => {
             if (this.errorInfo(res)) return;
             for (const v of this.list) {
               if (v._id === id) {
