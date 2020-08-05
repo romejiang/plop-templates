@@ -1,0 +1,15 @@
+
+module.exports = app => {
+  const mongoose = app.mongoose
+  
+  const {{ properCase name }}Schema = new mongoose.Schema({
+    name: { type: String, unique: true, required: true },
+    access: { type: String, required: true, default: 'user' }
+  }, { timestamps: true })
+
+  {{ properCase name }}Schema.methods.toString = function () {
+    return this.name 
+  };
+
+  return mongoose.model('{{ properCase name }}', {{ properCase name }}Schema)
+}
