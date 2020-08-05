@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 'use strict'
 
 const { app, assert } = require('egg-mock/bootstrap')
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('test/app/controller/{{ name }}.test.js', () => {
 
@@ -12,8 +13,8 @@ describe('test/app/controller/{{ name }}.test.js', () => {
       .delete('/api/{{ name }}')
       .expect(200)
 
-    // console.log(res.body);
-  });
+    // console.log(res.body)
+  })
 
   it('测试 {{ name }} 添加', async () => {
     app.mockCsrf()
@@ -26,9 +27,9 @@ describe('test/app/controller/{{ name }}.test.js', () => {
       })
       .expect(200, /请求成功/)
     const body = res.body
-    assert(body.code === 0);
+    assert(body.code === 0)
     id = body.data._id
-    await wait(2 * 1000);
+    await wait(2 * 1000)
   })
 
   it('测试 {{ name }} 修改', async () => {
@@ -53,8 +54,8 @@ describe('test/app/controller/{{ name }}.test.js', () => {
       .expect(200)
 
     const body = res.body
-    // console.log(body);
-    assert(res.status === 200);
+    // console.log(body)
+    assert(res.status === 200)
     assert(body.data._id === id)
   })
 
@@ -66,8 +67,8 @@ describe('test/app/controller/{{ name }}.test.js', () => {
       .expect(200)
 
     const body = res.body
-    // console.log(body);
-    assert(res.status === 200);
+    // console.log(body)
+    assert(res.status === 200)
     assert(body.data.list.length === 1)
     assert(body.data.list[0].access === 'update')
   })
