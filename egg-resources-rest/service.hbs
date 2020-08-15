@@ -19,7 +19,8 @@ class {{ properCase name }}Service extends Service {
 
   // 新增之前调用(默认值，不一定需要)
   async new(payload) {
-    const { ctx, service } = this
+    const { ctx } = this
+    return new ctx.model.Books()
   }
 
   // update===============================================>
