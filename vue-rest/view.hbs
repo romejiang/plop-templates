@@ -67,7 +67,6 @@
       >
         添加
       </el-button>
-      
     </div>
     <!-- 数据列表 -->
     <el-table
@@ -108,7 +107,7 @@
         min-width="150px"
       >
         <template slot-scope="{row}">
-          \{{ row.access }} 
+          \{{ row.access }}
         </template>
       </el-table-column>
 
@@ -146,7 +145,7 @@
             type="primary"
             size="mini"
             style="width: auto;"
-            icon="el-icon-edit-outline"  
+            icon="el-icon-edit-outline"
             @click="handleUpdate(row)"
           >
             编辑
@@ -248,6 +247,7 @@
 import {{ name }} from "@/api/{{ name }}";
 import waves from "@/directive/waves"; // waves directive
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
+import pagesizeMixin from "@/utils/pagesize";
 {{#if advanced}}
 const calendarTypeOptions = [
   { key: "CN", display_name: "China" },
@@ -255,11 +255,6 @@ const calendarTypeOptions = [
   { key: "JP", display_name: "Japan" },
   { key: "EU", display_name: "Eurozone" }
 ];
-
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name;
-  return acc;
-}, {});
 {{/if}}
 export default {
   name: "{{ properCase name }}",
@@ -274,6 +269,7 @@ export default {
       return statusMap[status];
     }
   },
+  mixins: [pagesizeMixin],
   data() {
     return {
       tableKey: 0,
@@ -285,11 +281,10 @@ export default {
         isPaging: true,
         currentPage: 1,
         pageSize: 20,
-
         search: undefined,
         {{#if advanced}}
         importance: undefined,
-        listType: undefined,
+        listType: undefined
         {{/if}}
       },
       {{#if advanced}}
@@ -347,7 +342,9 @@ export default {
     },
     // 弹起添加界面
     handleCreate() {
-      this.resetTemp();
+      {{ name }}.newly().then(response => {
+        this.resetTemp();
+      });
       this.dialogStatus = "create";
       this.dialogFormVisible = true;
       this.$nextTick(() => {
@@ -414,22 +411,7 @@ export default {
             this.successInfo();
           });
         })
-    },
-    successInfo(msg) {
-      this.$notify({
-        title: "成功",
-        message: msg ? msg : "信息操作成功",
-        type: "success",
-        duration: 2000
-      });
-    },
-    errorInfo(res) {
-      if (res.data && res.data.code !== 0) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    }
   }
 };
 </script>

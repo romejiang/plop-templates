@@ -7,21 +7,21 @@ import request from '@/utils/request'
 /**
  * 获取对象列表
  */
-export function list(query) {
+export function list(params) {
   return request({
     url: '/{{ name }}',
     method: 'get',
-    params: query
+    params
   })
 }
 /**
- * 获取登录用户的列表，JWT
+ * 获取登录用户的列表，通过JWT token
  */
-export function mine(query) {
+export function mine(params) {
   return request({
     url: '/{{ name }}/mine',
     method: 'get',
-    params: query
+    params
   })
 }
 /**
@@ -29,7 +29,16 @@ export function mine(query) {
  */
 export function get(id) {
   return request({
-    url: '/{{ name }}/' + id,
+    url: `/{{ name }}/${id}`,
+    method: 'get'
+  })
+}
+/**
+ * 新增前查询
+ */
+export function newly(id) {
+  return request({
+    url: '/{{ name }}/new',
     method: 'get'
   })
 }
@@ -43,6 +52,16 @@ export function create(data) {
     data
   })
 }
+/**
+ * 编辑前查询
+ */
+export function edit(id) {
+  return request({
+    url: `/{{ name }}/${id}/edit`,
+    method: 'get'
+  })
+}
+
 /**
  * 更新对象
  */
@@ -63,12 +82,13 @@ export function remove(id) {
   })
 }
 
-
 export default {
   list,
   mine,
   get,
+  newly,
   create,
+  edit,
   update,
   remove
 }
