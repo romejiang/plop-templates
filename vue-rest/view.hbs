@@ -183,7 +183,7 @@
         :rules="rules"
         :model="temp"
         label-position="left"
-        label-width="70px"
+        label-width="90px"
         style="width: 400px; margin-left:50px;"
       >
         {{#if advanced}}
@@ -222,7 +222,7 @@
           />
         </el-form-item>
 
-        <el-form-item v-if="temp.createdAt" label="时间">
+        <el-form-item v-if="temp.createdAt" label="创建时间">
           \{{ new Date(temp.createdAt) | parseTime }}
         </el-form-item>
 
