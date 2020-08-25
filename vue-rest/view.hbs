@@ -59,10 +59,11 @@
       </el-button>
 
       <el-button
+        v-if="checkPermission(['add'])"
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
-        icon="el-icon-edit"
+        icon="el-icon-plus"
         @click="handleCreate"
       >
         添加
@@ -74,10 +75,12 @@
       v-loading="listLoading"
       :data="list"
       border
+      stripe
       fit
       highlight-current-row
       style="width: 100%;"
     >
+    
     {{#if advanced}}
       <el-table-column
         v-if="showReviewer"
@@ -102,15 +105,8 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="权限"
-        min-width="150px"
-      >
-        <template slot-scope="{row}">
-          \{{ row.access }}
-        </template>
-      </el-table-column>
-
+      <el-table-column prop="access" label="权限" width="150" />
+      
       <el-table-column
         label="状态"
         width="110px"
@@ -134,7 +130,8 @@
       </el-table-column>
 
       <el-table-column
-        label="Actions"
+        v-if="checkPermission(['all','edit','delete'])"
+        label="操作区"
         fixed="right"
         align="center"
         width="180"
@@ -142,6 +139,7 @@
       >
         <template slot-scope="{row}">
           <el-button
+            v-if="checkPermission(['all','edit'])"
             type="primary"
             size="mini"
             style="width: auto;"
@@ -152,6 +150,7 @@
           </el-button>
 
           <el-button
+            v-if="checkPermission(['all','delete'])"
             size="mini"
             type="danger"
             style="width: auto;"
@@ -212,15 +211,7 @@
           <el-input v-model="temp.name" />
         </el-form-item>
 
-        <el-form-item
-          label="权限"
-          prop="access"
-        >
-          <el-input
-            v-model="temp.access"
-            @keyup.enter.native="dialogStatus === 'create' ? createData() : updateData()"
-          />
-        </el-form-item>
+        <el-form-item label="权限" prop="access"></el-form-item>
 
         <el-form-item v-if="temp.createdAt" label="创建时间">
           \{{ new Date(temp.createdAt) | parseTime }}
@@ -247,11 +238,14 @@
 </template>
 
 <script>
+
 import {{ name }} from "@/api/{{ name }}";
 import waves from "@/directive/waves"; // waves directive
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 import pagesizeMixin from "@/utils/pagesize";
 import baseMixin from "@/mixins/base";
+import checkPermission from '@/utils/permission' // 权限判断函数
+
 {{#if advanced}}
 const calendarTypeOptions = [
   { key: "CN", display_name: "China" },
@@ -323,6 +317,7 @@ export default {
     this.getList();
   },
   methods: {
+    checkPermission,
     getList() {
       this.listLoading = true;
       {{ name }}.list(this.listQuery).then(response => {
