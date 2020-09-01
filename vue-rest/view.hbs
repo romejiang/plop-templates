@@ -49,7 +49,6 @@
       {{/if}}
 
       <el-button
-        v-waves
         class="filter-item"
         type="primary"
         icon="el-icon-search"
@@ -240,7 +239,6 @@
 <script>
 
 import {{ name }} from "@/api/{{ name }}";
-import waves from "@/directive/waves"; // waves directive
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 import pagesizeMixin from "@/utils/pagesize";
 import baseMixin from "@/mixins/base";
@@ -257,7 +255,6 @@ const calendarTypeOptions = [
 export default {
   name: "{{ properCase name }}",
   components: { Pagination },
-  directives: { waves },
   filters: {
     statusFilter(status) {
       const statusMap = {
