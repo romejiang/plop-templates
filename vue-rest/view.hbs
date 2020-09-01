@@ -65,7 +65,7 @@
         icon="el-icon-plus"
         @click="handleCreate"
       >
-        添加
+        新增
       </el-button>
     </div>
     <!-- 数据列表 -->
@@ -119,12 +119,12 @@
       </el-table-column>
 
       <el-table-column
-        label="发布时间"
+        label="更新时间"
         width="160px"
         align="center"
       >
         <template slot-scope="scope">
-          <span>\{{ new Date(scope.row.createdAt) | formatTime("{y}-{m}-{d} {h}:{i}") }}</span>
+          <span>\{{ scope.row.updatedAt | formatTime("{y}-{m}-{d} {h}:{i}") }}</span>
         </template>
       </el-table-column>
 
@@ -145,7 +145,7 @@
             icon="el-icon-edit-outline"
             @click="handleUpdate(row)"
           >
-            编辑
+            修改
           </el-button>
 
           <el-button
@@ -212,8 +212,12 @@
 
         <el-form-item label="权限" prop="access"></el-form-item>
 
+        <el-form-item v-if="temp.updatedAt" label="更新时间">
+          \{{ temp.updatedAt | parseTime }}
+        </el-form-item>
+
         <el-form-item v-if="temp.createdAt" label="创建时间">
-          \{{ new Date(temp.createdAt) | parseTime }}
+          \{{ temp.createdAt | parseTime }}
         </el-form-item>
 
       </el-form>
@@ -228,7 +232,7 @@
           type="primary"
           @click="dialogStatus==='create'?createData():updateData()"
         >
-          提交
+          保存
         </el-button>
       </div>
     </el-dialog>
@@ -267,6 +271,7 @@ export default {
   mixins: [baseMixin, pagesizeMixin],
   data() {
     return {
+      title: '用户',
       tableKey: 0,
       list: null,
       total: 0,
@@ -296,8 +301,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: "",
       textMap: {
-        update: "编辑",
-        create: "添加"
+        update: "修改",
+        create: "新增"
       },
       // 验证方法
       rules: {
