@@ -79,7 +79,6 @@
       highlight-current-row
       style="width: 100%;"
     >
-    
     {{#if advanced}}
       <el-table-column
         v-if="showReviewer"
@@ -103,9 +102,7 @@
           >\{{ row.name }}</span>
         </template>
       </el-table-column>
-
       <el-table-column prop="access" label="权限" width="150" />
-      
       <el-table-column
         label="状态"
         width="110px"
@@ -210,7 +207,7 @@
           <el-input v-model="temp.name" />
         </el-form-item>
 
-        <el-form-item label="权限" prop="access"></el-form-item>
+        <el-form-item label="权限" prop="access" />
 
         <el-form-item v-if="temp.updatedAt" label="更新时间">
           \{{ temp.updatedAt | parseTime }}
@@ -281,7 +278,7 @@ export default {
         isPaging: true,
         currentPage: 1,
         pageSize: 20,
-        search: undefined,
+        search: undefined{{#if advanced}},{{/if}}
         {{#if advanced}}
         importance: undefined,
         listType: undefined
