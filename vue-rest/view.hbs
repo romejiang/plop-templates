@@ -108,8 +108,8 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.pass | statusFilter">
-            \{{ scope.row.pass?"绑定成功":'等待绑定' }}
+          <el-tag :type="scope.row.pass | statusFilter" @click="handlePass(scope.row)">
+            \{{ scope.row.pass ? '开启' : '关闭' }}
           </el-tag>
         </template>
       </el-table-column>
@@ -410,7 +410,27 @@ export default {
             this.successInfo();
           });
         })
-    }
+    },
+    handlePass(row) {
+      this.$confirm(
+        row.pass ? "你确定要关闭吗？" : "你确定要开启吗？",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      ).then(() => {
+        {{ name }}.pass(row._id).then(res => {
+          if (this.errorInfo(res)) return;
+          this.successInfo();
+          const idx = this.list.findIndex(e => e._id === row._id);
+          const obj = this.list[idx];
+          obj.pass = !!!obj.pass;
+          this.list.splice(idx, 1, obj);
+        });
+      });
+    },
   }
 };
 </script>
