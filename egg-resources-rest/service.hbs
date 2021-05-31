@@ -2,47 +2,10 @@
 const Service = require('egg').Service
 
 class {{ properCase name }}Service extends Service {
-  // create===============================================>
-  async create(payload) {
-    return this.ctx.model.{{ properCase name }}.create(payload)
-  }
 
-  // destroy===============================================>  
-  async destroy(_id) {
-    const { ctx } = this
-    const {{ name }} = await ctx.service.{{ name }}.find(_id)
-    if (!{{ name }}) {
-      ctx.throw(404, '{{ name }} not found')
-    }
-    return ctx.model.{{ properCase name }}.findByIdAndRemove(_id)
-  }
-
-  // 新增之前调用(默认值，不一定需要)
-  async new(payload) {
-    const { ctx } = this
-    return new ctx.model.{{ properCase name }}()
-  }
-
-  // update===============================================>
-  async update(_id, payload) {
-    const { ctx } = this
-    const {{ name }} = await ctx.service.{{ name }}.find(_id)
-    if (!{{ name }}) {
-      ctx.throw(404, '{{ name }} not found')
-    }
-    return ctx.model.{{ properCase name }}.findByIdAndUpdate(_id, payload)
-  }
-
-  // show===============================================>
-  async show(_id) {
-    const {{ name }} = await this.ctx.service.{{ name }}.find(_id)
-    if (!{{ name }}) {
-      this.ctx.throw(404, '{{ name }} not found')
-    }
-    return this.ctx.model.{{ properCase name }}.findById(_id)
-  }
-
-  // index===============================================>
+  /**
+  *  index 搜索方法
+  */
   async index(payload, id = undefined) {
     let { currentPage, pageSize, search } = payload
 
@@ -79,20 +42,6 @@ class {{ properCase name }}Service extends Service {
     })
 
     return { count, list, pageSize, currentPage }
-  }
-
-  // removes===============================================>
-  async removes(values) {
-    if (values.length > 0) {
-      return this.ctx.model.{{ properCase name }}.deleteMany({ _id: { $in: values } })
-    }else{
-      return this.ctx.model.{{ properCase name }}.deleteMany({})
-    }
-  }
-
-  // Commons===============================================>
-  async find(id) {
-    return this.ctx.model.{{ properCase name }}.findById(id)
   }
 
 }

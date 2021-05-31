@@ -27,6 +27,16 @@ class {{ properCase name }}Controller extends Controller {
     ctx.helper.success({ctx, res})
   }
 
+  // 创建角色
+  async create() {
+    const { ctx } = this
+    ctx.validate(this.createRule)
+    const payload = ctx.request.body || {}
+
+    const res = await ctx.model.{{ properCase name }}.create(payload)
+    ctx.helper.success({ctx, res})
+  }
+
   // 获取单个角色
   async show() {
     const { ctx } = this
@@ -38,20 +48,10 @@ class {{ properCase name }}Controller extends Controller {
     }
     ctx.helper.success({ctx, res})
   }
-
+  
   // 编辑之前调用 根据具体业务修改代码 默认和show相同
   async edit() {
     await this.show()
-  }
-
-  // 创建角色
-  async create() {
-    const { ctx } = this
-    ctx.validate(this.createRule)
-    const payload = ctx.request.body || {}
-
-    const res = await ctx.model.{{ properCase name }}.create(payload)
-    ctx.helper.success({ctx, res})
   }
 
   // 修改角色
@@ -89,11 +89,26 @@ class {{ properCase name }}Controller extends Controller {
     const { ctx, service } = this
 
     const _id = ctx.state.user.data._id
+    // const user = await ctx.model.User.findById(_id)
     const payload = ctx.query
 
     // 调用 Service 进行业务处理
     const res = await service.{{ name }}.index(payload, _id)
     ctx.helper.success({ctx, res})
+  }
+
+  // 开启关闭
+  async pass() {
+    const { ctx } = this
+    const payload = ctx.request.body || {}
+    const { id } = payload
+    const {{ name }} = await ctx.model.{{ properCase name }}.findById(id)
+    if (!{{ name }}) {
+      ctx.throw(404, '{{ name }}没有找到')
+    }
+    const pass = !!!{{ name }}.pass
+    const res = await ctx.model.{{ properCase name }}.findByIdAndUpdate(room, { pass })
+    ctx.helper.success({ ctx, res })
   }
 }
 
