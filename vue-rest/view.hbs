@@ -58,7 +58,6 @@
       </el-button>
 
       <el-button
-        v-if="checkPermission(['add'])"
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
@@ -121,12 +120,11 @@
         align="center"
       >
         <template slot-scope="scope">
-          <span>\{{ scope.row.updatedAt | formatTime("{y}-{m}-{d} {h}:{i}") }}</span>
+          <span>\{{ scope.row.updatedAt | parseTime("{y}-{m}-{d} {h}:{i}") }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        v-if="checkPermission(['all','edit','delete'])"
         label="操作区"
         fixed="right"
         align="center"
@@ -135,7 +133,6 @@
       >
         <template slot-scope="{row}">
           <el-button
-            v-if="checkPermission(['all','edit'])"
             type="primary"
             size="mini"
             style="width: auto;"
@@ -146,7 +143,6 @@
           </el-button>
 
           <el-button
-            v-if="checkPermission(['all','delete'])"
             size="mini"
             type="danger"
             style="width: auto;"
@@ -207,6 +203,13 @@
           <el-input v-model="temp.name" />
         </el-form-item>
 
+        <el-form-item
+          label="权限"
+          prop="name"
+        >
+          <el-input v-model="temp.access" />
+        </el-form-item>
+
         <el-form-item label="权限" prop="access" />
 
         <el-form-item v-if="temp.updatedAt" label="更新时间">
@@ -243,7 +246,6 @@ import {{ name }} from "@/api/{{ name }}";
 import Pagination from "@/components/Pagination"; // secondary package based on el-pagination
 import pagesizeMixin from "@/mixins/pagesize";
 import baseMixin from "@/mixins/base";
-import checkPermission from '@/utils/permission' // 权限判断函数
 
 {{#if advanced}}
 const calendarTypeOptions = [
@@ -316,7 +318,6 @@ export default {
     this.getList();
   },
   methods: {
-    checkPermission,
     getList() {
       this.listLoading = true;
       {{ name }}.list(this.listQuery).then(response => {
