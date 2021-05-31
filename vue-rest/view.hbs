@@ -205,12 +205,14 @@
 
         <el-form-item
           label="权限"
-          prop="name"
+          prop="access"
         >
           <el-input v-model="temp.access" />
         </el-form-item>
 
-        <el-form-item label="权限" prop="access" />
+        <el-form-item label="权限" prop="access">
+          {{ temp.access }}
+        </el-form-item>
 
         <el-form-item v-if="temp.updatedAt" label="更新时间">
           \{{ temp.updatedAt | parseTime }}
