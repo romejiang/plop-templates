@@ -73,8 +73,8 @@ class {{ properCase name }}Service extends Service {
     // 整理数据源 -> Ant Design Pro
     const list = res.map((e, i) => {
       const jsonObject = Object.assign({}, e._doc)
-      jsonObject.index = i
-      jsonObject.createdAt = e.createdAt.getTime()
+      // jsonObject.index = i
+      // jsonObject.createdAt = e.createdAt.getTime()
       return jsonObject
     })
 
