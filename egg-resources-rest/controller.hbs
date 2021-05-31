@@ -21,17 +21,21 @@ class {{ properCase name }}Controller extends Controller {
 
   // 新增之前调用(默认值，不一定需要)
   async new() {
-    const { ctx, service } = this
+    const { ctx } = this
     const payload = ctx.query
-    const res = await service.{{ name }}.new(payload)
+    const res = await new ctx.model.{{ properCase name }}()
     ctx.helper.success({ctx, res})
   }
 
   // 获取单个角色
   async show() {
-    const { ctx, service } = this
+    const { ctx } = this
     const { id } = ctx.params
-    const res = await service.{{ name }}.show(id)
+    
+    const res = await ctx.model.{{ properCase name }}.findById(id)
+    if (!res) {
+      ctx.throw(404, '{{ name }} 没有找到')
+    }
     ctx.helper.success({ctx, res})
   }
 
@@ -42,28 +46,41 @@ class {{ properCase name }}Controller extends Controller {
 
   // 创建角色
   async create() {
-    const { ctx, service } = this
+    const { ctx } = this
     ctx.validate(this.createRule)
     const payload = ctx.request.body || {}
-    const res = await service.{{ name }}.create(payload)
+
+    const res = await ctx.model.{{ properCase name }}.create(payload)
     ctx.helper.success({ctx, res})
   }
 
   // 修改角色
   async update() {
-    const { ctx, service } = this
+    const { ctx } = this
     ctx.validate(this.createRule)
     const { id } = ctx.params
     const payload = ctx.request.body || {}
-    await service.{{ name }}.update(id, payload)
+
+    const {{ name }} = await ctx.model.{{ properCase name }}.findById(id)
+    if (!{{ name }}) {
+      ctx.throw(404, '{{ name }} 没有找到')
+    }
+    await ctx.model.{{ properCase name }}.findByIdAndUpdate(id, payload)
+
     ctx.helper.success({ctx})
   }
   
   // 删除单个角色
   async destroy() {
-    const { ctx, service } = this
+    const { ctx } = this
     const { id } = ctx.params
-    await service.{{ name }}.destroy(id)
+
+    const {{ name }} = await ctx.model.{{ properCase name }}.findById(id)
+    if (!{{ name }}) {
+      ctx.throw(404, '{{ name }} 没有找到')
+    }
+    await ctx.model.{{ properCase name }}.findByIdAndRemove(id)
+
     ctx.helper.success({ctx})
   }
 
