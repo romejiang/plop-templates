@@ -101,13 +101,13 @@ class {{ properCase name }}Controller extends Controller {
   async pass() {
     const { ctx } = this
     const payload = ctx.request.body || {}
-    const { id } = payload
+    const { id } = ctx.params
     const {{ name }} = await ctx.model.{{ properCase name }}.findById(id)
     if (!{{ name }}) {
       ctx.throw(404, '{{ name }}没有找到')
     }
-    const pass = !!!{{ name }}.pass
-    const res = await ctx.model.{{ properCase name }}.findByIdAndUpdate(room, { pass })
+    const pass = !{{ name }}.pass
+    const res = await ctx.model.{{ properCase name }}.findByIdAndUpdate(id, { pass })
     ctx.helper.success({ ctx, res })
   }
 }
