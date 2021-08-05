@@ -8,7 +8,8 @@ module.exports = app => {
     pass: { type: Boolean, default: false }
   }, { timestamps: true })
 
-
+  // {{ properCase name }}Schema.index({ name: 1, pass: 1 });
+  
   // {{ properCase name }}Schema.pre('save', async function (next) {
   //   const ctx = app.createAnonymousContext()
   //   this.secret = ctx.helper.randomString(12)
